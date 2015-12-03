@@ -2,6 +2,7 @@ var mongoose  = require('mongoose');
 var Schema    = mongoose.Schema;
 
 var BookSchema = new Schema({
+  url: String
   title: String,
   author: String,
   pages: String,
