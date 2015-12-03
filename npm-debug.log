@@ -1,0 +1,74 @@
+0 info it worked if it ends with ok
+1 verbose cli [ '/home/vagrant/.nvm/v0.10.32/bin/node',
+1 verbose cli   '/home/vagrant/.nvm/v0.10.32/bin/npm',
+1 verbose cli   'install',
+1 verbose cli   'mongodb-server' ]
+2 info using npm@1.4.28
+3 info using node@v0.10.32
+4 warn package.json node-api@ No description
+5 warn package.json node-api@ No repository field.
+6 warn package.json node-api@ No README data
+7 verbose readDependencies using package.json deps
+8 verbose cache add [ 'mongodb-server', null ]
+9 verbose cache add name=undefined spec="mongodb-server" args=["mongodb-server",null]
+10 verbose parsed url { protocol: null,
+10 verbose parsed url   slashes: null,
+10 verbose parsed url   auth: null,
+10 verbose parsed url   host: null,
+10 verbose parsed url   port: null,
+10 verbose parsed url   hostname: null,
+10 verbose parsed url   hash: null,
+10 verbose parsed url   search: null,
+10 verbose parsed url   query: null,
+10 verbose parsed url   pathname: 'mongodb-server',
+10 verbose parsed url   path: 'mongodb-server',
+10 verbose parsed url   href: 'mongodb-server' }
+11 silly lockFile a84e1157-mongodb-server mongodb-server
+12 verbose lock mongodb-server /home/vagrant/.npm/a84e1157-mongodb-server.lock
+13 silly lockFile a84e1157-mongodb-server mongodb-server
+14 silly lockFile a84e1157-mongodb-server mongodb-server
+15 verbose addNamed [ 'mongodb-server', '' ]
+16 verbose addNamed [ null, '*' ]
+17 silly lockFile f9a38038-mongodb-server mongodb-server@
+18 verbose lock mongodb-server@ /home/vagrant/.npm/f9a38038-mongodb-server.lock
+19 silly addNameRange { name: 'mongodb-server', range: '*', hasData: false }
+20 verbose request where is /mongodb-server
+21 verbose request registry https://registry.npmjs.org/
+22 verbose request id c55e643304a4d8ca
+23 verbose url raw /mongodb-server
+24 verbose url resolving [ 'https://registry.npmjs.org/', './mongodb-server' ]
+25 verbose url resolved https://registry.npmjs.org/mongodb-server
+26 verbose request where is https://registry.npmjs.org/mongodb-server
+27 info trying registry request attempt 1 at 18:07:47
+28 http GET https://registry.npmjs.org/mongodb-server
+29 http 404 https://registry.npmjs.org/mongodb-server
+30 silly registry.get cb [ 404,
+30 silly registry.get   { 'content-type': 'application/json',
+30 silly registry.get     'cache-control': 'max-age=0',
+30 silly registry.get     'content-length': '2',
+30 silly registry.get     'accept-ranges': 'bytes',
+30 silly registry.get     date: 'Wed, 02 Dec 2015 18:07:47 GMT',
+30 silly registry.get     via: '1.1 varnish',
+30 silly registry.get     age: '0',
+30 silly registry.get     connection: 'keep-alive',
+30 silly registry.get     'x-served-by': 'cache-ord1734-ORD',
+30 silly registry.get     'x-cache': 'MISS',
+30 silly registry.get     'x-cache-hits': '0',
+30 silly registry.get     'x-timer': 'S1449079667.149109,VS0,VE79' } ]
+31 silly lockFile f9a38038-mongodb-server mongodb-server@
+32 silly lockFile f9a38038-mongodb-server mongodb-server@
+33 error 404 Not Found
+33 error 404
+33 error 404 'mongodb-server' is not in the npm registry.
+33 error 404 You should bug the author to publish it
+33 error 404 It was specified as a dependency of 'node-api'
+33 error 404
+33 error 404 Note that you can also install from a
+33 error 404 tarball, folder, or http url, or git url.
+34 error System Linux 3.2.0-65-generic-pae
+35 error command "/home/vagrant/.nvm/v0.10.32/bin/node" "/home/vagrant/.nvm/v0.10.32/bin/npm" "install" "mongodb-server"
+36 error cwd /vagrant/mean
+37 error node -v v0.10.32
+38 error npm -v 1.4.28
+39 error code E404
+40 verbose exit [ 1, true ]

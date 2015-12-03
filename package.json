@@ -1,0 +1,9 @@
+{
+  "name": "tpl-api",
+  "main": "server.js",
+  "dependencies": {
+    "express": "~4.13.3",
+    "mongoose": "~4.2.8",
+    "body-parser": "1.14.1"
+  }
+}
