@@ -28,8 +28,24 @@ rp(options)
 
     // once all promises are resolved
     q.all(requests).then(function (results) { // q.all is a single promise to represent all url query promises
-      console.log('done ' + results.length);
-      debugger
+      console.log('done ' + results.length); // move to next series of pages...
+
+      var nextPage = $('.pagination-next').attr('href');
+      var nextPageOptions = {
+        uri: root + nextPage,
+        transform: function (body) {
+          return cheerio.load(body);
+        }
+      };
+
+      rp(nextPageOptions)
+      .then(function ($) {
+        console.log('in next set of querires')
+
+      })
+      .catch(function (err) {
+        console.error('fwark')
+      });
     }).catch(function (err) {
       console.error('a request failed', err)
     });
