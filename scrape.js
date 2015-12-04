@@ -24,9 +24,8 @@ rp(options)
       console.log('Book created!' + book );
       mongoose.disconnect();
     });
-
     // Book.create(book, function (err, book) { // posting to db
-    //   if (err) console.log(err);
+    // if (err) console.log(err);
     //   // saved!
   })
   .catch(function (err) {
