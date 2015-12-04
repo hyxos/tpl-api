@@ -1,6 +1,9 @@
+'use strict'
+
 var cheerio = require('cheerio');
 var rp = require('request-promise');
 var q = require('bluebird');
+var scrape = require('./scrape')
 
 var root = 'http://www.torontopubliclibrary.ca'
 
@@ -22,11 +25,21 @@ rp(options)
     // });
     var requests = [];
     urls.map(function (index, url) { // creating promises from requests on urls
-      requests.push(rp(root + url));
+      var options = {
+        uri: root + url,
+        transform: function (body) {
+          return cheerio.load(body);
+        }
+      };
+
+      requests.push(rp(options).then(function ($) {
+        console.log($('h1').text());
+      }));
     });
     // once all promises are resolved
-    q.all(requests).then(function (results) { // q.all == single promise to represent all url query promises
-      console.log('done ' + results.length)
+    q.all(requests).then(function (results) { // q.all is a single promise to represent all url query promises
+      console.log('done ' + results.length);
+      debugger
     })
     .catch(function (err) {
       console.error('a request failed', err)
