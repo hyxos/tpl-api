@@ -19,32 +19,21 @@ rp(options)
     var titles = $('div > div > div.title.align-top > a');
     var urls = titles.map(function (index, div) { // collecting urls
       return $(div).attr('href')
-    })
-    // var requests = urls.forEach(function (url) {
-    //   return (rp(root + url));
-    // });
+    });
+
     var requests = [];
     urls.map(function (index, url) { // creating promises from requests on urls
-      var options = {
-        uri: root + url,
-        transform: function (body) {
-          return cheerio.load(body);
-        }
-      };
-
-      requests.push(rp(options).then(function ($) {
-        console.log($('h1').text());
-      }));
+      requests.push(scrape(root + url));
     });
+
     // once all promises are resolved
     q.all(requests).then(function (results) { // q.all is a single promise to represent all url query promises
       console.log('done ' + results.length);
       debugger
-    })
-    .catch(function (err) {
+    }).catch(function (err) {
       console.error('a request failed', err)
     });
   })
   .catch(function (err) {
-    console.error(err)
+    console.error('initial load failed', err)
   });

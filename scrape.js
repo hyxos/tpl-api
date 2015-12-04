@@ -16,7 +16,7 @@ module.exports = function (page) {
   }
   rp(options)
   .then(function (scrape) {
-    console.log('recorded added to db');
+    console.log('added to db');
   })
   .catch(function (err) {
     console.error('couldnt scrape', err);
@@ -30,7 +30,8 @@ function scrape($) {
     pages: $('div > div > div > div > span.text').text()
   });
   book.save(function (err) { 
-    if (err) console.log(err);
-    mongoose.disconnect();
+    if (err) console.error('failed to save book', err);
+    console.log(book);
+    //mongoose.disconnect();
   });  
 }
