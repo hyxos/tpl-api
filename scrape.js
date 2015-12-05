@@ -16,10 +16,10 @@ module.exports = function (page) {
   }
   rp(options)
   .then(function (scrape) {
-    console.log('added to db');
+    //console.log('added to db');
   })
   .catch(function (err) {
-    console.error('couldnt scrape', err);
+    //console.error('couldnt scrape', err);
   });
 }
 
@@ -31,7 +31,7 @@ function scrape($) {
   });
   book.save(function (err) { 
     if (err) console.error('failed to save book', err);
-    console.log(book);
+    //console.log(book);
     //mongoose.disconnect();
   });  
 }
