@@ -2,12 +2,12 @@ var mongoose  = require('mongoose');
 var Schema    = mongoose.Schema;
 
 var BookSchema = new Schema({
-  url: String
+  url: String,
   title: String,
   author: String,
   pages: String,
-  copyright: Number,
-  isbn: Number,
+  copyright: String,
+  isbn: String,
   record_id: Number,
   copies_and_availability: {
     branch: String,
