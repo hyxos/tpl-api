@@ -1,88 +1,46 @@
-'use strict'
-
-// call the packages we need
 var express = require('express');
-var morgan = require('morgan');
-var mongoose = require('mongoose');
-var bp = require('body-parser')
-
-// configure app
 var app = express();
-app.use(morgan('dev')); // log requests to the console
-app.use(bp.urlencoded({ extended: true }));
-app.use(bp.json());
+var port = process.env.PORT || 8080;
 
+
+var mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/book'); // connect to our database
-
 var Book = require('./app/models/book');
+// routes will go here
 
-// create our router
-var router = express.Router();
+// start the server
+app.listen(port);
+console.log('Server started! At http://localhost:' + port);
 
-// middleware to use for all requests
-router.use(function (req, res, next) {
-  console.log('Something is happening.');
-  next();
+
+app.get('/api/books/', function(req, res) {
+  var query = {};
+
+  // ex: /books?branch=North+York+Central+Library
+  if (req.query.branch) {
+    query.branch = req.query.branch
+  }
+
+  if (req.query.title) {
+    query.title = req.query.title
+  }
+
+  if (req.query.author) {
+    query.author = req.query.author;
+  }
+
+  Book.find(query).exec(function (err, res) {
+      console.log(res);
+  });
+
+  // Book.findOne({ 'title' : req.query.title}, 'title author', function (err, book) {
+  //   if (err) return handleError(err);
+  //   console.log(book.title + book.author) // Space Ghost is a talk show host.
+  // })  
 });
 
-// test route to make sure everything is working (accessed at GET http://localhost:3000/api)
-router.get('/', function (req, res) {
-  res.json({ message: 'hooray! welcome to our api!' }); 
-});
+//var query = Person.findOne({ 'title': 'Ghost' });
 
-// on routes that end in /books
-router.route('/books')
-// create a book
-.post(function (req, res) {
-  var book = new Book(); // create a new instance of the Book model
-  console.log(req.body.title);
-  book.title = req.body.title; // set the books name (comes from the request)
-  book.save(function (err) {
-    if (err) res.send(err);
-    res.json({ message: 'Book created!' });
-  });
-})
-
-// get all the books
-.get(function (req, res) {
-  Book.find(function (err, books) {
-    if (err) res.send(err);
-    res.json(books);
-  });
-})
-
-// on routes that end in /books/:book_id
-router.route('/books/:book_id')
-// get the Book with that id
-.get(function (req, res) {
-  Book.findById(req.params.Book_id, function (err, Book) {
-    if (err) res.send(err);
-    res.json(Book);
-  });
-})
-
-// update the Book with this id
-.put(function (req, res) {
-  Book.findById(req.params.Book_id, function (err, Book) {
-    if (err) res.send(err);
-    Book.name = req.body.name;
-    Book.save(function (err) {
-      if (err) res.send(err);
-      res.json({ message: 'Book updated!' });
-    });
-  });
-})
-
-// delete the Book with this id
-.delete(function (req, res) {
-  Book.remove({ _id: req.params.book_id}, function (err, book) {
-    if (err) res.send(err);
-    res.json({ message: 'Successfully deleted' });
-  });
-});
+//Kitten.find({ name: /^Fluff/ }, callback);
 
 
-// register routes and start server
-app.use('/api', router);
-app.listen(3000);
-console.log('Magic happens on port 3000');
