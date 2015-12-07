@@ -25,16 +25,37 @@ module.exports = function (page) {
 
 function scrape($) {
   console.log(options.uri); // for url field
+  //branches $('tbody > tr > td > b > a').text()
   var book = new Book ({
     title: $('h1 > span').text().replace(/\r?\n|\t/g, '').toLowerCase(),
     author: $('.bib-info .author > a').text().toLowerCase(),
     pages: $('div > div > div > div > span.text').text().match(/\b\d{3}\b/),
     isbn: $('div.clear-left > table > tbody > tr:nth-child(3).isbn > td:nth-child(2)').text().match(/\d*/),
-    copyright: $('div.clear-left > table > tbody:nth-child(2) > tr:nth-child(2).public-information > td:nth-child(2)').text().match(/\d.*/)
+    copyright: $('div.clear-left > table > tbody:nth-child(2) > tr:nth-child(2).public-information > td:nth-child(2)').text().match(/\d.*/),
+    recordId: $('#full-record-hidden > tr:nth-child(1) > td').text(),
+    numberCopies: $('#number-copies').text()
   });
   book.save(function (err) { 
     if (err) console.error('failed to save book', err);
-    //console.log(book);
-    //mongoose.disconnect();
+    console.log(book);
+    branchScrape(book.recordId, book.numberCopies);
   });  
+}
+
+function branchScrape(recordId, numberCopies) {
+  var options = {
+    uri: `http://www.torontopubliclibrary.ca/components/elem_bib-branch-holdings.jspf?itemId=${recordId}&numberCopies=${numberCopies}&print=`,
+    transform: function (body) {
+      return $.load(body)
+    }
+  }
+  rp(options)
+  .then(function ($) {
+    $('tbody > tr > td > b > a').forEach(function (branch) {
+      console.log($(branch).text());
+    })
+  })
+  .catch(function (err) {
+    console.error('couldnt scrape branch stuff', err);
+  });
 }

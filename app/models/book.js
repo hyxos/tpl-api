@@ -8,7 +8,8 @@ var BookSchema = new Schema({
   pages: String,
   copyright: String,
   isbn: String,
-  record_id: Number,
+  recordId: String,
+  numberCopies: String,
   copies_and_availability: {
     branch: String,
     format: String,

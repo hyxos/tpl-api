@@ -23,14 +23,14 @@ rp(options)
     console.error('initial index load failed', err)
   });
 
-function grabIndexUrls ($) {
+function grabIndexUrls($) {
   var titles = $('div > div > div.title.align-top > a');
   return titles.map(function (index, div) { // collecting urls
     return $(div).attr('href')
   });    
 }
 
-function createRequests (urls) {
+function createRequests(urls) {
   var requests = [];
   urls.map(function (index, url) { // creating promises from requests on urls
     requests.push(scrape(root + url));

@@ -46,7 +46,11 @@ router.route('/books')
 
 // get all the books
 .get(function (req, res) {
-  Book.find(function (err, books) {
+  var query = {};
+  if (req.query.branch) query.branch = req.query.branch; // books?branch=North+York+Central+Library
+  if (req.query.title) query.title = req.query.title;
+
+  Book.find(query).exec(function (err, books) {
     if (err) res.send(err);
     res.json(books);
   });
@@ -54,6 +58,7 @@ router.route('/books')
 
 // on routes that end in /books/:book_id
 router.route('/books/:book_id')
+
 // get the Book with that id
 .get(function (req, res) {
   Book.findById(req.params.Book_id, function (err, Book) {
