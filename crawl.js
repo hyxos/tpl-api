@@ -15,6 +15,14 @@ var options = {
   }
 };
 
+rp(options)
+  .then(function ($) {
+    getNewIndex($);
+  })
+  .catch(function (err) {
+    console.error('initial index load failed', err)
+  });
+
 function grabIndexUrls ($) {
   var titles = $('div > div > div.title.align-top > a');
   return titles.map(function (index, div) { // collecting urls
@@ -44,20 +52,14 @@ function requestNextPage(url) {
 
 function getNewIndex(currentPage) {
   var requests = createRequests(grabIndexUrls(currentPage));
-  q.all(requests).then(function (results) { // once all promises are resolved
+  q.all(requests).then(function (results) { // once all promises are resolved load next index of pages...
     console.log('going to :' + root + getNextPage(currentPage));
-    currentPage = requestNextPage(getNextPage(currentPage)); // load next index of pages...
-    getNewIndex(currentPage);
+    requestNextPage(getNextPage(currentPage))
+    .then(function (page) {
+      getNewIndex(page);
+    });
   }).catch(function (err) {
       console.error('a request failed', err)
   });
 }
-
-rp(options)
-  .then(function ($) {
-    getNewIndex($);
-  })
-  .catch(function (err) {
-    console.error('initial index load failed', err)
-  });
 

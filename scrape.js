@@ -24,10 +24,13 @@ module.exports = function (page) {
 }
 
 function scrape($) {
+  console.log(options.uri); // for url field
   var book = new Book ({
     title: $('h1 > span').text().replace(/\r?\n|\t/g, '').toLowerCase(),
     author: $('.bib-info .author > a').text().toLowerCase(),
-    pages: $('div > div > div > div > span.text').text()
+    pages: $('div > div > div > div > span.text').text().match(/\b\d{3}\b/),
+    isbn: $('div.clear-left > table > tbody > tr:nth-child(3).isbn > td:nth-child(2)').text().match(/\d*/),
+    copyright: $('div.clear-left > table > tbody:nth-child(2) > tr:nth-child(2).public-information > td:nth-child(2)').text().match(/\d.*/)
   });
   book.save(function (err) { 
     if (err) console.error('failed to save book', err);

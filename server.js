@@ -32,6 +32,7 @@ router.get('/', function (req, res) {
 
 // on routes that end in /books
 router.route('/books')
+
 // create a book
 .post(function (req, res) {
   var book = new Book(); // create a new instance of the Book model
