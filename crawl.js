@@ -42,22 +42,36 @@ function getNextPage($) {
   return $('.pagination-next').attr('href');
 }
 
-function requestNextPage(url) {
-  request(root + url, function (error, response, body) {
-    if (!error && response.statusCode == 200) {
-      return cheerio.load(body); // returning too late....
-    }
-  })
-}
+// function requestNextPage(url) {
+//   request(root + url, function (error, response, body) {
+//     if (!error && response.statusCode == 200) {
+//       return cheerio.load(body); // returning too late....
+//     }
+//   })
+// }
+
+
 
 function getNewIndex(currentPage) {
   var requests = createRequests(grabIndexUrls(currentPage));
   q.all(requests).then(function (results) { // once all promises are resolved load next index of pages...
     console.log('going to :' + root + getNextPage(currentPage));
-    requestNextPage(getNextPage(currentPage))
+
+    var options = {
+      uri: root + getNextPage(currentPage),
+      transform: function (body) {
+        return cheerio.load(body);
+      }
+    };
+
+    rp(options)
     .then(function (page) {
       getNewIndex(page);
+    })
+    .catch(function (err) {
+      console.error('coudlnt reach next search index', err)
     });
+    
   }).catch(function (err) {
       console.error('a request failed', err)
   });

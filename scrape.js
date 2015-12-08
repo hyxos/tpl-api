@@ -13,19 +13,19 @@ module.exports = function (page) {
     transform: function (body) {
       return scrape($.load(body))
     }
-  }
+  };
+
   rp(options)
   .then(function (scrape) {
-    //console.log('added to db');
+    console.log('added to db');
   })
   .catch(function (err) {
-    //console.error('couldnt scrape', err);
+    console.error('couldnt scrape', err);
   });
 }
 
 function scrape($) {
-  console.log(options.uri); // for url field
-  //branches $('tbody > tr > td > b > a').text()
+  //console.log(options.uri); // for url field
   var book = new Book ({
     title: $('h1 > span').text().replace(/\r?\n|\t/g, '').toLowerCase(),
     author: $('.bib-info .author > a').text().toLowerCase(),
@@ -37,7 +37,6 @@ function scrape($) {
   });
   book.save(function (err) { 
     if (err) console.error('failed to save book', err);
-    console.log(book);
     branchScrape(book.recordId, book.numberCopies);
   });  
 }
@@ -46,13 +45,15 @@ function branchScrape(recordId, numberCopies) {
   var options = {
     uri: `http://www.torontopubliclibrary.ca/components/elem_bib-branch-holdings.jspf?itemId=${recordId}&numberCopies=${numberCopies}&print=`,
     transform: function (body) {
-      return $.load(body)
+      return $.load(body);
     }
-  }
+  };
+
   rp(options)
   .then(function ($) {
-    $('tbody > tr > td > b > a').forEach(function (branch) {
-      console.log($(branch).text());
+    console.log(options.uri);
+    $('a').each(function (branch) { 
+      console.log($(this).text()) 
     })
   })
   .catch(function (err) {
