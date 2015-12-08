@@ -14,8 +14,12 @@ class BookList extends React.Component {
   render() {
     var items = [];
     this.props.books.forEach(function(book) {
+      console.log(this.props)
+      if (book.title.indexOf(this.props.filterText) === -1) {
+        return;
+      }
       items.push(<BookItem title={book.title} author={book.author} />)
-     });
+    }, this);
     return (
       <div>{items}</div>
     );
@@ -23,6 +27,11 @@ class BookList extends React.Component {
 }
 
 class SearchBox extends React.Component {
+  constructor () {
+    super();
+    this.handleChange = this.handleChange.bind(this);
+  }
+
   handleChange() {
     this.props.onUserInput(
       this.refs.filterTextInput.value
@@ -32,32 +41,41 @@ class SearchBox extends React.Component {
     return (
       <form>
         <label htmlFor="search"></label>
-        <input className="input-block" type="text" id="search" placeholder="search books" value={this.props.filterText} />
+        <input className="input-block" 
+                type="text" 
+                id="search"
+                placeholder="search books" 
+                ref="filterTextInput"
+                value={this.props.filterText}
+                onChange={this.handleChange}
+                />
       </form>
     );
   }
 }
 
 class FilterableBookList extends React.Component {
-  getInitialState() {
-    return {
-      filterText: ''
-    }
+
+  constructor () {
+    super();
+    this.handleUserInput = this.handleUserInput.bind(this);
+    this.state = { filterText: '' }
   }
 
   handleUserInput(filterText) {
+    console.log(this)
     this.setState({
       filterText: filterText
     })
   }
-  debugger;
+
   render() {
     return (
       <div className="container">
         <div className="row">
           <div className="col s12">
-            <SearchBox filterText={this.props.filterText}/>
-            <BookList books={this.props.books} filterText={this.props.filterText} />
+            <SearchBox filterText={this.props.filterText} onUserInput={this.handleUserInput} />
+            <BookList books={this.props.books} filterText={this.state.filterText} />
           </div>
         </div>
       </div>
@@ -68,7 +86,14 @@ class FilterableBookList extends React.Component {
 var BOOKS = [
 {title: 'Harry Potter and the Chamber of Secrets', author: 'J.K. Rowling'},
 {title: 'The Lord of the Rings: Fellowship of the Ring', author: 'J.R.R. Tolkien'},
-{title: 'Dune', author: 'Frank Herbert'}
+{title: 'Dune', author: 'Frank Herbert'},
+{title: 'Lord of the Flies', author: 'William Golding'},
+{title: 'Snow Crash', author: 'Neal Stephenson'},
+{title: 'Neuromancer', author: 'William Gibson'},
+{title: 'The Black Swan', author: 'Nicholas Taleb'},
+{title: 'The Crucible', author: 'Arthur Miller'},
+{title: 'Essentialism', author: 'Greg McKeown'},
+{title: 'Breakfast of Champions', author: 'Kurt Vonnegut'}
 ]
 
 const renderTarget = document.createElement('div');
