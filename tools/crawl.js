@@ -8,7 +8,7 @@ var cheerio = require('cheerio'),
 var options = { uri: `${root}/search.jsp?N=37906+38758&Ntk=Keyword_Anywhere&advancedSearch=true`, transform: body => cheerio.load(body) }
 
 rp(options)
-  .then( $ => getNewIndex($))
+  .then( $ => getNewIndex($) )
   .catch( err => console.error('initial index load failed', err) )
 
 var grabIndexUrls = $ => {
