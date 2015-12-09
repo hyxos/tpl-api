@@ -14,8 +14,8 @@ class BookList extends React.Component {
   render() {
     var items = [];
     this.props.books.forEach(function(book) {
-      console.log(this.props)
-      if (book.title.indexOf(this.props.filterText) === -1) {
+      var lc = book.title.toLowerCase()
+      if (lc.indexOf(this.props.filterText) === -1) {
         return;
       }
       items.push(<BookItem title={book.title} author={book.author} />)
@@ -27,16 +27,13 @@ class BookList extends React.Component {
 }
 
 class SearchBox extends React.Component {
-  constructor () {
-    super();
-    this.handleChange = this.handleChange.bind(this);
-  }
-
-  handleChange() {
+  
+  handleChange = () => {
     this.props.onUserInput(
       this.refs.filterTextInput.value
       )
   }
+  
   render() {
     return (
       <form>
@@ -56,14 +53,9 @@ class SearchBox extends React.Component {
 
 class FilterableBookList extends React.Component {
 
-  constructor () {
-    super();
-    this.handleUserInput = this.handleUserInput.bind(this);
-    this.state = { filterText: '' }
-  }
+  state = {filterText: ''}
 
-  handleUserInput(filterText) {
-    console.log(this)
+  handleUserInput = (filterText) => {
     this.setState({
       filterText: filterText
     })
