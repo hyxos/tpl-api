@@ -1,5 +1,5 @@
 var mongoose = require('mongoose')
-require('./book')
+var Book = require('./book')
 
 mongoose.connect('mongodb://localhost/book')
 mongoose.connection.on('connected', () => console.log('db connected'))

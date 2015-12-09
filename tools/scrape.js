@@ -5,11 +5,11 @@ var $ = require('cheerio'),
 module.exports = page => {
   var options = { uri: page, transform: body => scrape($.load(body)) }
   rp(options)
-  .then((scrape) => console.log('added to db'))
-  .catch(err => console.error(err))
+  .then( scrape => console.log('added to db') )
+  .catch( err => console.error('scraper', err) )
 }
 
-var scrape = ($) => {
+var scrape = $ => {
   var book = new Book ({
     title: $('h1 > span').text().replace(/\r?\n|\t/g, '').toLowerCase(),
     author: $('.bib-info .author > a').text().toLowerCase(),
@@ -19,10 +19,10 @@ var scrape = ($) => {
     recordId: $('#full-record-hidden > tr:nth-child(1) > td').text(),
     numberCopies: $('#number-copies').text()
   })
-  book.save(() => branchScrape(book))
+  book.save( () => branchScrape(book) )
 }
 
-var branchScrape = (book) => {
+var branchScrape = book => {
   var options = {
     uri: `http://www.torontopubliclibrary.ca/components/elem_bib-branch-holdings.jspf?
     itemId=${book.recordId}&numberCopies=${book.numberCopies}&print=`,
@@ -30,11 +30,11 @@ var branchScrape = (book) => {
   }
 
   rp(options)
-  .then(($) => {
+  .then( ($) => {
     $('a').each((branch) => {
       book.branches.push({ name: $(this).text() })
       book.save((err) => { if (err) console.error('branch save error', err) })
     })
   })
-  .catch((err) => console.error('couldnt scrape branch stuff', err))
+  .catch( err => console.error('couldnt scrape branch stuff', err) )
 }
