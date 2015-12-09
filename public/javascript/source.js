@@ -15,7 +15,7 @@ class BookList extends React.Component {
     var items = [];
     this.props.books.forEach(function(book) {
       var lc = book.title.toLowerCase()
-      if (lc.indexOf(this.props.filterText) === -1) {
+      if (lc.indexOf(this.props.filterText.toLowerCase()) === -1) {
         return;
       }
       items.push(<BookItem title={book.title} author={book.author} />)
@@ -33,7 +33,7 @@ class SearchBox extends React.Component {
       this.refs.filterTextInput.value
       )
   }
-  
+
   render() {
     return (
       <form>
