@@ -19,7 +19,7 @@ class BookList extends React.Component {
     var items = [];
     this.props.books.forEach(function (book) {
       var lc = book.title.toLowerCase();
-      if (lc.indexOf(this.props.filterText) === -1) {
+      if (lc.indexOf(this.props.filterText.toLowerCase()) === -1) {
         return;
       }
       items.push(React.createElement(BookItem, { title: book.title, author: book.author }));
