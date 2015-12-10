@@ -1,18 +1,23 @@
-'use strict'
-
-var express = require('express')
-var morgan = require('morgan')
-var bp = require('body-parser')
-var app = express()
+var express = require('express'),
+  morgan = require('morgan'),
+  bp = require('body-parser'),
+  book = require ('../db/config'),
+  app = express()
 
 app.use(morgan('dev')) // logger
 app.use(bp.urlencoded({ extended: true }))
 app.use(bp.json())
+app.listen(3000, () => console.log('magic happens on port 3000'))
 
-app.use('/api', import router from '/routes')
+app.get('/books', (req, res) => {
+  var query = {} // TODO: QUERYING e.g: books?branch=North+York+Central+Library
+  if (req.query.branch)
+    query.branch = req.query.branch
+  if (req.query.title)
+    query.title = req.query.title
+  if (req.query.author)
+    query.author = req.query.author
+  book.find(query).exec((err, books) => res.json(books))
+})
 
-app.listen(3000, function() {
-    console.log('magic happens on port 3000')
-});
-
-export { app };
+module.exports = app

@@ -1,5 +1,5 @@
-var mongoose = require('mongoose')
-var Book = require('./book')
+var mongoose = require('mongoose'),
+  book = require('./book')
 
 mongoose.connect('mongodb://localhost/book')
 mongoose.connection.on('connected', () => console.log('db connected'))
@@ -12,3 +12,5 @@ process.on('SIGINT', () => {
     process.exit(0)
   })
 })
+
+module.exports = book

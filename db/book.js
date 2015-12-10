@@ -16,4 +16,4 @@ var bookSchema = new mongoose.Schema({
   branches: [branchSchema]
 })
 
-var Book = module.exports = mongoose.model('Book', bookSchema)
+module.exports = mongoose.model('Book', bookSchema)

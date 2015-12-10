@@ -24,8 +24,9 @@ var scrape = $ => {
 
 var branchScrape = book => {
   var options = {
-    uri: `http://www.torontopubliclibrary.ca/components/elem_bib-branch-holdings.jspf?
-    itemId=${book.recordId}&numberCopies=${book.numberCopies}&print=`,
+    uri: `http://www.torontopubliclibrary.ca/
+          components/elem_bib-branch-holdings.jspf?
+          itemId=${book.recordId}&numberCopies=${book.numberCopies}&print=`,
     transform: body => $.load(body)
   }
 

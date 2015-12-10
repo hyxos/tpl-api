@@ -1,6 +1,6 @@
 var express = require('express'),
   router = express.Router(),
-  Book = require ('../../db/config')
+  Book = require ('../db/config')
 
 router.get('/', (req, res) => res.send('in api'))
 
