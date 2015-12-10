@@ -11,29 +11,28 @@ var options = {
   }
 
 rp(options)
-  .then( $ => getNewIndex($) )
-  .catch( err => console.error('initial index load failed', err) )
+  .then($ => getIndex($))
+  .catch(err => console.error('initial index load failed', err))
 
-var grabIndexUrls = $ => {
+var getIndexURLs = $ => {
   var titles = $('div > div > div.title.align-top > a')
-  return titles.map( (index, div) => $(div).attr('href') )
+  return titles.map((index, div) => $(div).attr('href'))
 }
 
-var createRequests = urls => {
+var setRequests = urls => {
   var requests = []
-  urls.map( (index, url) => requests.push(scrape(root + url)) )
+  urls.map((index, url) => requests.push(scrape(root + url)))
   return requests
 }
 
 var getNextPage = $ => $('.pagination-next').attr('href')
 
-var getNewIndex = currentPage => {
-  var requests = createRequests(grabIndexUrls(currentPage));
+var getIndex = currentPage => {
+  var requests = setRequests(getIndexURLs(currentPage));
   q.all(requests).then( results => {
-    console.log(`going to : ${root}${getNextPage(currentPage)}`)
     var options = { uri: root + getNextPage(currentPage), transform: body => cheerio.load(body) }
     rp(options)
-      .then( page => getNewIndex(page) )
-      .catch( err => console.error('coudlnt reach next search index', err) )
-  }).catch( err => console.error('a request failed', err) )
+      .then(page => getIndex(page))
+      .catch(err => console.error('coudlnt reach next search index', err))
+  }).catch(err => console.error('a request failed', err))
 }

@@ -1,19 +1,18 @@
 var mongoose = require('mongoose')
 
-var branchSchema = new mongoose.Schema({
-    name: String
-})
-
 var bookSchema = new mongoose.Schema({
-  url: String,
-  title: String,
-  author: String,
-  pages: String,
-  copyright: String,
-  isbn: String,
-  recordId: String,
-  numberCopies: String,
-  branches: [branchSchema]
+  title: { type: String, required: true, lowercase: true },
+  author: { type: String, required: true, lowercase: true },
+  pages: { type: String, required: false },
+  year: { type: String, required: false },
+  isbn: { type: String, required: false },
+  id: { type: String, required: false },
+  copies: { type: String, required: false },
+  branches: [{
+    _id: false,
+    name: { type: String, required: true },
+    status: { type: String }
+  }]
 })
 
 module.exports = mongoose.model('Book', bookSchema)
