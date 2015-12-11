@@ -3,12 +3,12 @@ Public facing API for the Toronto Public Library
 ## Installation
 TODO: Describe the installation process
 ## Usage
-URL Query Parameters
-| Param         | Value         | Desc              |
-| ------------- |:-------------:| -----------------:|
-| title         | search query  | book title        |
-| author        | centered      |   $12             |
-| branch        | are neat      |    $1             |
+
+| Params        | Value           | Description  |
+| ------------- |:-------------| -----|
+| _title_      | 'The Hobbit' | Books matching title |
+| _author_     | 'J.R Tolken'      | Books matching author |
+| _branch_ | 'Some Branch'      |    Books found at the given branch|
 
 ## Contributing
 1. Fork it!
