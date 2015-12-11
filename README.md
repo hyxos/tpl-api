@@ -4,11 +4,36 @@ Public facing API for the Toronto Public Library
 TODO: Describe the installation process
 ## Usage
 
-| Params        | Value           | Description  |
-| ------------- |:-------------| -----|
-| _title_      | the hobbit | Books matching title |
-| _author_     | tolken      | Books matching author |
-| _branch_ | referance library      |    Books found at the given branch|
+### Request
+`/books?title=standard`
+### Response
+``` javascript
+  {
+  "_id": "566b1471975054750e2cecd0",
+  "uri": "http://www.torontopubliclibrary.ca/detail.jsp?Entt=RDM3351424&R=3351424",
+  "title": "standard candles",
+  "author": "major, alice, 949- author.",
+  "pages": "164",
+  "isbn": "9781772120912 (paperback)",
+  "image": "http://syndetics.com/index.aspx?isbn=9781772120912/MC.gif",
+  "id": "3351424",
+  "copies": "2",
+  "__v": 0,
+  "branches": [
+    {
+      "name": "North York Central Library",
+      "status": "In Transit"
+    },
+    {
+      "name": "Toronto Reference Library",
+      "status": "In Transit"
+    }
+  ]
+}
+```
+
+
+
 
 ## Contributing
 1. Fork it!
