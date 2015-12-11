@@ -6,9 +6,9 @@ TODO: Describe the installation process
 
 | Params        | Value           | Description  |
 | ------------- |:-------------| -----|
-| _title_      | 'The Hobbit' | Books matching title |
-| _author_     | 'J.R Tolken'      | Books matching author |
-| _branch_ | 'Some Branch'      |    Books found at the given branch|
+| _title_      | the hobbit | Books matching title |
+| _author_     | tolken      | Books matching author |
+| _branch_ | referance library      |    Books found at the given branch|
 
 ## Contributing
 1. Fork it!
@@ -16,6 +16,7 @@ TODO: Describe the installation process
 3. Commit your changes: `git commit -am 'Add some feature'`
 4. Push to the branch: `git push origin my-new-feature`
 5. Submit a pull request :D
+
 ## History
 TODO: Write history
 ## Credits
