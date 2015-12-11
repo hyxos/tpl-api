@@ -12,8 +12,9 @@ app.use(bp.json())
 app.listen(3000, () => console.log('magic happens on port 3000'))
 
 app.get('/books', (req, res) => {
-  var limit = req.query.limit || 10
   var query = {}
+  var limit = req.query.limit || 10
+  var order = req.query.order || -1
 
   if (req.query.branch) {
     query.branch = new RegExp(req.query.branch, 'i')
@@ -22,6 +23,5 @@ app.get('/books', (req, res) => {
   } if (req.query.author) {
     query.author = new RegExp(req.query.author, 'i')
   }
-
-  book.find(query).limit(limit).exec((err, books) => res.json(books))
+  book.find(query).limit(limit).sort({ title: order }).exec((err, books) => res.json(books))
 })
