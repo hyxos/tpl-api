@@ -6,19 +6,21 @@ var $ = require('cheerio'),
 db()
 
 module.exports = page => {
-  var options = { uri: page, transform: body => scrape($.load(body)) }
+  var options = { uri: page, transform: body => scrape($.load(body), page) }
   rp(options)
   .catch(err => console.error('scraper', err))
 }
 
-var scrape = $ => {
+var scrape = ($, page) => {
   var book = new Book ({
+    uri: page,
     title: $('#record-book-detail > h1').text().replace(/\r?\n|\t/g, ''),
-    author: $('.bib-info .author > a').text(),
+    author: $('#record-book-detail > div.bib-info > div:nth-child(1) > a').text().replace(/\d/, ''),
     pages: $('div > div > div > div > span').text().match(/\b\d{3}\b/),
-    isbn: $('div.clear-left > table > tbody > tr:nth-child(3).isbn > td:nth-child(2)').text().match(/\d*/),
+    isbn: $('#full-record-partial > tr.isbn > td').text(),
     copyright: $('#full-record-partial > tr:nth-child(2) > td').text().match(/\d.*/),
-    id: $('#full-record-hidden > tr:nth-child(1) > td').text().match(/\d.*/),
+    image: $('#bib-detail > div.grid_4.alpha > div > img').attr('src'),
+    id: $('#full-record-hidden > tr:nth-child(1) > td').text(),
     copies: $('#number-copies').text().match(/\d.*/)
   })
 

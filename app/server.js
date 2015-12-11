@@ -12,14 +12,23 @@ app.use(bp.json())
 app.listen(3000, () => console.log('magic happens on port 3000'))
 
 app.get('/books', (req, res) => {
-  var query = {} // TODO: QUERYING e.g: books?branch=North+York+Central+Library&title=
-  if (req.query.branch)
+  var query = {
+    limit: req.query.limit || 10
+  }
+  if (req.query.branch) {
     query.branch = req.query.branch
-  if (req.query.title)
+  }
+  if (req.query.title) {
     query.title = req.query.title
-  if (req.query.author)
+  }
+  if (req.query.author) {
     query.author = req.query.author
-  book.find(query).exec((err, books) => res.json(books))
+  }
+
+  book.
+    find(query).
+    limit(query.limit).
+    exec((err, books) => res.json(books))
 })
 
 module.exports = app
