@@ -65,6 +65,7 @@ class BookList extends React.Component {
                   image={book.image}
                   branches={book.branches}
                   uri={book.uri} />)
+
     }, this);
     return (
       <div>{items}</div>
@@ -82,7 +83,6 @@ class SearchBox extends React.Component {
 
   render() {
     return (
-      
         <div className="input-field teal lighten-2 z-depth-5">
           <input className="input-block" 
                   type="search" 
@@ -96,7 +96,6 @@ class SearchBox extends React.Component {
           <label htmlFor="search"><i className="material-icons">search</i></label>
           <i className="material-icons">close</i>
         </div>
-      
     );
   }
 }
@@ -131,12 +130,6 @@ class FilterableBookList extends React.Component {
     })
   }
 
-  handleSubmit = (e) => {
-    alert('hello');
-    e.preventDefault();
-    e.stopPropagation();
-  }
-
   render() {
     return (
       <div className="container">
@@ -163,4 +156,3 @@ class FilterableBookList extends React.Component {
 const renderTarget = document.createElement('div');
 document.body.appendChild(renderTarget);
 ReactDOM.render(<FilterableBookList url="http://localhost:3000/books" />, renderTarget);
-

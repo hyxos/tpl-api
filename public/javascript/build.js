@@ -161,10 +161,6 @@ class FilterableBookList extends React.Component {
       this.setState({
         filterText: filterText
       });
-    }, this.handleSubmit = e => {
-      alert('hello');
-      e.preventDefault();
-      e.stopPropagation();
     }, _temp2;
   }
 
