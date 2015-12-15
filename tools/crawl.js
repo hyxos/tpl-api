@@ -6,11 +6,7 @@ var cheerio = require('cheerio'),
   root = 'http://www.torontopubliclibrary.ca'
 
 var options = {
-<<<<<<< f69ab0c33dfe67c6318add7f1a6fd3c4edd57858
-    uri: `${root}/search.jsp?N=37918+20206&No=60&Ns=p_date_acquired_sort&Nso=1&Ntk=Keyword_Anywhere&advancedSearch=true`,
-=======
     uri: `${root}/search.jsp?Ntk=Keyword_Anywhere&N=0&advancedSearch=true&Ntt=science+fiction`,
->>>>>>> can pull data api
     transform: body => cheerio.load(body)
   }
 
