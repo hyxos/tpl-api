@@ -26,10 +26,19 @@ class BookItem extends React.Component {
     var uri = this.props.uri;
     return React.createElement(
       'div',
-      { className: 'col s6' },
+      { className: 'col s4' },
       React.createElement(
         'div',
         { className: 'book card-panel white-text light-blue lighten-3 z-depth-5' },
+        React.createElement(
+          'div',
+          { className: 'card-action center-align' },
+          React.createElement(
+            'a',
+            { className: 'waves-effect waves-light btn z-depth-2', href: uri },
+            'Check Availability'
+          )
+        ),
         React.createElement(
           'div',
           { className: 'card-image' },
@@ -68,15 +77,6 @@ class BookItem extends React.Component {
             'p',
             { className: 'z-depth-2' },
             branches
-          )
-        ),
-        React.createElement(
-          'div',
-          { className: 'link card-action' },
-          React.createElement(
-            'a',
-            { className: 'waves-effect waves-light btn z-depth-2', href: uri },
-            'Check Availability'
           )
         )
       )
@@ -185,7 +185,7 @@ class FilterableBookList extends React.Component {
   render() {
     return React.createElement(
       'div',
-      { className: 'container' },
+      null,
       React.createElement('hr', null),
       React.createElement(
         'div',
@@ -215,4 +215,4 @@ class FilterableBookList extends React.Component {
 
 const renderTarget = document.createElement('div');
 document.body.appendChild(renderTarget);
-ReactDOM.render(React.createElement(FilterableBookList, { url: 'http://localhost:3000/books' }), renderTarget);
+ReactDOM.render(React.createElement(FilterableBookList, { url: 'http://localhost:3000/books?limit=200' }), renderTarget);

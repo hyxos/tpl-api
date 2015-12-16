@@ -26,8 +26,11 @@ class BookItem extends React.Component {
     var branches = formatBranch(this.props.branches)
     var uri = this.props.uri
     return (
-      <div className="col s6">
+      <div className="col s4">
         <div className="book card-panel white-text light-blue lighten-3 z-depth-5">
+          <div className="card-action center-align">
+            <a className="waves-effect waves-light btn z-depth-2" href={uri}>Check Availability</a>
+          </div>
           <div className="card-image">
             <p><img src={image} className="z-depth-4"/></p>
           </div>
@@ -38,9 +41,7 @@ class BookItem extends React.Component {
             <p className="z-depth-2">{copies}</p>
             <p className="z-depth-2">{branches}</p>
           </div>
-          <div className="link card-action">
-            <a className="waves-effect waves-light btn z-depth-2" href={uri}>Check Availability</a>
-          </div>
+          
         </div>
       </div>
     )
@@ -132,7 +133,7 @@ class FilterableBookList extends React.Component {
 
   render() {
     return (
-      <div className="container">
+      <div>
         <hr/>
         <div className="row">
           <div className="col s12">
@@ -155,4 +156,4 @@ class FilterableBookList extends React.Component {
 
 const renderTarget = document.createElement('div');
 document.body.appendChild(renderTarget);
-ReactDOM.render(<FilterableBookList url="http://localhost:3000/books" />, renderTarget);
+ReactDOM.render(<FilterableBookList url="http://localhost:3000/books?limit=200" />, renderTarget);

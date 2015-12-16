@@ -15,7 +15,7 @@ var scrape = ($, page) => {
   var book = new Book ({
     uri: page,
     title: $('#record-book-detail > h1').text().replace(/\r?\n|\t/g, ''),
-    author: $('#record-book-detail > div.bib-info > div:nth-child(1) > a').text().replace(/\d/, ''),
+    author: $('div > div > div > div.author > a').text().replace(/\d/, ''),
     pages: $('div > div > div > div > span').text().match(/\b\d{3}\b/),
     isbn: $('#full-record-partial > tr.isbn > td').text(),
     copyright: $('#full-record-partial > tr:nth-child(2) > td').text().match(/\d.*/),
