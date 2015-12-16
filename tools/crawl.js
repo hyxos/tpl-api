@@ -6,7 +6,7 @@ var cheerio = require('cheerio'),
   root = 'http://www.torontopubliclibrary.ca'
 
 var options = {
-    uri: `${root}/search.jsp?N=38759+37906&Ntk=Keyword_Anywhere&advancedSearch=true`,
+    uri: `${root}/search.jsp?Ntk=Keyword_Anywhere&N=0&advancedSearch=true&Ntt=science+fiction`,
     transform: body => cheerio.load(body)
   }
 

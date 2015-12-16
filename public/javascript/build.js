@@ -1,5 +1,7 @@
 'use strict';
 
+var ReactCSSTransitionGroup = React.addons.CSSTransitionGroup;
+
 class BookItem extends React.Component {
   render() {
     function toTitleCase(str) {
@@ -12,7 +14,9 @@ class BookItem extends React.Component {
       return toTitleCase(array[1] + " " + array[0]);
     }
     function formatBranch(branches) {
-      if (typeof branches[0] === 'undefined') {} else {
+      if (typeof branches[0] === 'undefined') {
+        return;
+      } else {
         return branches[0].name + ': ' + branches[0].status;
       }
     }
@@ -104,8 +108,8 @@ class BookList extends React.Component {
         uri: book.uri }));
     }, this);
     return React.createElement(
-      'div',
-      null,
+      ReactCSSTransitionGroup,
+      { transitionName: 'example', transitionEnterTimeout: 500, transitionLeaveTimeout: 300 },
       items
     );
   }
@@ -131,7 +135,6 @@ class SearchBox extends React.Component {
         ref: 'filterTextInput',
         value: this.props.filterText,
         onChange: this.handleChange,
-
         required: true }),
       React.createElement(
         'label',
@@ -156,21 +159,25 @@ class FilterableBookList extends React.Component {
     var _temp2;
 
     return _temp2 = super(...args), this.state = { filterText: '',
-      data: []
+      data: [],
+      query: '',
+      url: this.props.url
     }, this.handleUserInput = filterText => {
+      var url = this.props.url + filterText;
       this.setState({
-        filterText: filterText
+        filterText: filterText,
+        url: url
       });
+      this.loadBooksFromServer();
     }, _temp2;
   }
 
   loadBooksFromServer() {
     $.ajax({
-      url: this.props.url,
+      url: this.state.url,
       dataType: 'json',
       success: data => {
         this.setState({ data: data });
-        console.log(this.state.data);
       },
       err: (xhr, status, err) => {
         console.error(this.props.url, status, err.toString());
@@ -215,4 +222,4 @@ class FilterableBookList extends React.Component {
 
 const renderTarget = document.createElement('div');
 document.body.appendChild(renderTarget);
-ReactDOM.render(React.createElement(FilterableBookList, { url: 'http://localhost:3000/books?limit=200' }), renderTarget);
+ReactDOM.render(React.createElement(FilterableBookList, { url: 'http://localhost:3000/books?limit=12&order=asc&title=' }), renderTarget);

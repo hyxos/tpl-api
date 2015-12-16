@@ -1,5 +1,7 @@
 'use strict';
 
+var ReactCSSTransitionGroup = React.addons.CSSTransitionGroup;
+
 class BookItem extends React.Component {
   render() {
     function toTitleCase(str) {
@@ -11,6 +13,7 @@ class BookItem extends React.Component {
     }
     function formatBranch(branches) {
       if (typeof branches[0] === 'undefined') {
+        return
       }
       else {
         return branches[0].name + ': ' + branches[0].status
@@ -69,7 +72,9 @@ class BookList extends React.Component {
 
     }, this);
     return (
-      <div>{items}</div>
+      <ReactCSSTransitionGroup transitionName="example" transitionEnterTimeout={500} transitionLeaveTimeout={300}>
+        {items}
+      </ReactCSSTransitionGroup>
     );
   }
 }
@@ -92,7 +97,6 @@ class SearchBox extends React.Component {
                   ref="filterTextInput"
                   value={this.props.filterText}
                   onChange={this.handleChange}
-                  
                   required/>
           <label htmlFor="search"><i className="material-icons">search</i></label>
           <i className="material-icons">close</i>
@@ -104,16 +108,17 @@ class SearchBox extends React.Component {
 class FilterableBookList extends React.Component {
 
   state = { filterText: '',
-            data: []
+            data: [],
+            query: '',
+            url: this.props.url
           }
   
   loadBooksFromServer() {
     $.ajax({
-      url: this.props.url,
+      url: this.state.url,
       dataType: 'json',
       success: (data) => {
         this.setState({data: data});
-        console.log(this.state.data)
       },
       err: (xhr, status, err) => {
         console.error(this.props.url, status, err.toString());
@@ -126,9 +131,12 @@ class FilterableBookList extends React.Component {
   }
 
   handleUserInput = (filterText) => {
+    var url = this.props.url + filterText
     this.setState({
-      filterText: filterText
+      filterText: filterText,
+      url: url
     })
+    this.loadBooksFromServer()
   }
 
   render() {
@@ -156,4 +164,4 @@ class FilterableBookList extends React.Component {
 
 const renderTarget = document.createElement('div');
 document.body.appendChild(renderTarget);
-ReactDOM.render(<FilterableBookList url="http://localhost:3000/books?limit=200" />, renderTarget);
+ReactDOM.render(<FilterableBookList url="http://localhost:3000/books?limit=12&order=asc&title=" />, renderTarget);

@@ -16,6 +16,7 @@ app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   next();
 });
+
 app.get('/books', (req, res) => {
   var query = {}
   var limit = req.query.limit || 10

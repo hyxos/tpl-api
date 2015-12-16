@@ -5,7 +5,7 @@ var bookSchema = new mongoose.Schema({
   title: { type: String, required: true, lowercase: true },
   author: { type: String, required: true, lowercase: true },
   image: { type: String, required: false, validate: imageValidator },
-  pages: { type: String, required: false },
+  pages: { type: String, required: true },
   year: { type: String, required: false },
   isbn: { type: String, required: false },
   uri: { type: String, required: true },
