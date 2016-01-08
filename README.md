@@ -1,5 +1,7 @@
 # TLP-API
 Public facing API for the Toronto Public Library
+## Demo
+TPL-API Search https://1hx.ca/tplapi
 ## Installation
 TODO: Describe the installation process
 ## Usage
