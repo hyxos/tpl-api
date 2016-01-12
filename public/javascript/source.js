@@ -76,43 +76,35 @@ class BookList extends React.Component {
   }
 }
 
-class SearchBox extends React.Component {
-  
-  handleChange = () => {
-    this.props.onUserInput(
-      this.refs.filterTextInput.value
-      )
-  }
-
-  render() {
-    return (
-        <div className="input-field teal lighten-2 z-depth-5">
-          <input className="input-block" 
-                  type="search" 
-                  id="search"
-                  placeholder="search books by title" 
-                  ref="filterTextInput"
-                  value={this.props.filterText}
-                  onChange={this.handleChange}
-                  required/>
-          <label htmlFor="search"><i className="material-icons">search</i></label>
-          <i className="material-icons">close</i>
-        </div>
-    );
-  }
-}
+const SearchBox = (props) => (
+  <div className="input-field teal lighten-2 z-depth-5">
+    <input 
+      className="input-block" 
+      type="search"   
+      id="search"
+      placeholder="search books by title" 
+      value={props.value}
+      onChange={ev => props.onUserInput(ev.target.value)}
+    required/>
+    <label htmlFor="search"><i className="material-icons">search</i></label>
+    <i className="material-icons" onClick={props.onClose}>close</i>
+  </div>
+)
 
 class FilterableBookList extends React.Component {
 
-  state = { filterText: '',
-            data: [],
-            query: '',
-            url: this.props.url
-          }
-  
+  state = {
+   filterText: '',
+   data: []
+  }
+
+  componentDidMount() {
+    this.loadBooksFromServer()
+  }
+
   loadBooksFromServer() {
     $.ajax({
-      url: this.state.url,
+      url: this.props.url + this.state.filterText,
       dataType: 'json',
       success: (data) => {
         this.setState({data: data});
@@ -120,20 +112,13 @@ class FilterableBookList extends React.Component {
       err: (xhr, status, err) => {
         console.error(this.props.url, status, err.toString());
       }
-    });
-  }
-
-  componentDidMount() {
-    this.loadBooksFromServer()
-  }
-
-  handleUserInput = (filterText) => {
-    var url = this.props.url + filterText
-    this.setState({
-      filterText: filterText,
-      url: url
     })
-    this.loadBooksFromServer()
+  }
+
+  componentDidUpdate(nextProps, nextState) {
+    if (this.state.filterText !== nextState.filterText) {
+      this.loadBooksFromServer();
+    }
   }
 
   render() {
@@ -144,10 +129,11 @@ class FilterableBookList extends React.Component {
           <div className="col s12">
             <nav>
               <div className="nav-wrapper">
-                <SearchBox 
-                  filterText={this.props.filterText} 
-                  onUserInput={this.handleUserInput} 
-                  onSubmit={this.handleSubmit} />
+                <SearchBox
+                  value={this.state.filterText}
+                  onUserInput={v => this.setState({filterText: v})}
+                  onClose={() => {this.setState({filterText: ''}, () => console.log('updated state')); console.log('close');} }
+                   />
               </div>
             </nav>
             <hr/>
@@ -161,4 +147,4 @@ class FilterableBookList extends React.Component {
 
 const renderTarget = document.createElement('div');
 document.body.appendChild(renderTarget);
-ReactDOM.render(<FilterableBookList url="http://localhost:3000/books?limit=12&order=asc&title=" />, renderTarget);
+ReactDOM.render(<FilterableBookList url="http://localhost:3000/books?limit=21&order=asc&title=" />, renderTarget);

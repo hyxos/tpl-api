@@ -116,66 +116,50 @@ class BookList extends React.Component {
   }
 }
 
-class SearchBox extends React.Component {
-  constructor(...args) {
-    var _temp2;
-
-    return _temp2 = super(...args), this.handleChange = () => {
-      this.props.onUserInput(this.refs.filterTextInput.value);
-    }, _temp2;
-  }
-
-  render() {
-    return React.createElement(
-      'div',
-      { className: 'input-field teal lighten-2 z-depth-5' },
-      React.createElement('input', { className: 'input-block',
-        type: 'search',
-        id: 'search',
-        placeholder: 'search books by title',
-        ref: 'filterTextInput',
-        value: this.props.filterText,
-        onChange: this.handleChange,
-        required: true }),
-      React.createElement(
-        'label',
-        { htmlFor: 'search' },
-        React.createElement(
-          'i',
-          { className: 'material-icons' },
-          'search'
-        )
-      ),
-      React.createElement(
-        'i',
-        { className: 'material-icons' },
-        'close'
-      )
-    );
-  }
-}
+const SearchBox = props => React.createElement(
+  'div',
+  { className: 'input-field teal lighten-2 z-depth-5' },
+  React.createElement('input', {
+    className: 'input-block',
+    type: 'search',
+    id: 'search',
+    placeholder: 'search books by title',
+    value: props.value,
+    onChange: ev => props.onUserInput(ev.target.value),
+    required: true }),
+  React.createElement(
+    'label',
+    { htmlFor: 'search' },
+    React.createElement(
+      'i',
+      { className: 'material-icons' },
+      'search'
+    )
+  ),
+  React.createElement(
+    'i',
+    { className: 'material-icons', onClick: props.onClose },
+    'close'
+  )
+);
 
 class FilterableBookList extends React.Component {
   constructor(...args) {
-    var _temp3;
+    var _temp2;
 
-    return _temp3 = super(...args), this.state = { filterText: '',
-      data: [],
-      query: '',
-      url: this.props.url
-    }, this.handleUserInput = filterText => {
-      var url = this.props.url + filterText;
-      this.setState({
-        filterText: filterText,
-        url: url
-      });
-      this.loadBooksFromServer();
-    }, _temp3;
+    return _temp2 = super(...args), this.state = {
+      filterText: '',
+      data: []
+    }, _temp2;
+  }
+
+  componentDidMount() {
+    this.loadBooksFromServer();
   }
 
   loadBooksFromServer() {
     $.ajax({
-      url: this.state.url,
+      url: this.props.url + this.state.filterText,
       dataType: 'json',
       success: data => {
         this.setState({ data: data });
@@ -186,8 +170,10 @@ class FilterableBookList extends React.Component {
     });
   }
 
-  componentDidMount() {
-    this.loadBooksFromServer();
+  componentDidUpdate(nextProps, nextState) {
+    if (this.state.filterText !== nextState.filterText) {
+      this.loadBooksFromServer();
+    }
   }
 
   render() {
@@ -208,9 +194,12 @@ class FilterableBookList extends React.Component {
               'div',
               { className: 'nav-wrapper' },
               React.createElement(SearchBox, {
-                filterText: this.props.filterText,
-                onUserInput: this.handleUserInput,
-                onSubmit: this.handleSubmit })
+                value: this.state.filterText,
+                onUserInput: v => this.setState({ filterText: v }),
+                onClose: () => {
+                  this.setState({ filterText: '' }, () => console.log('updated state'));console.log('close');
+                }
+              })
             )
           ),
           React.createElement('hr', null),
@@ -223,4 +212,4 @@ class FilterableBookList extends React.Component {
 
 const renderTarget = document.createElement('div');
 document.body.appendChild(renderTarget);
-ReactDOM.render(React.createElement(FilterableBookList, { url: 'http://localhost:3000/books?limit=12&order=asc&title=' }), renderTarget);
+ReactDOM.render(React.createElement(FilterableBookList, { url: 'http://localhost:3000/books?limit=21&order=asc&title=' }), renderTarget);
