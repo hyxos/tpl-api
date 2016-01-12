@@ -1,32 +1,31 @@
 'use strict';
 
-var ReactCSSTransitionGroup = React.addons.CSSTransitionGroup;
-
 class BookItem extends React.Component {
-  render() {
-    function toTitleCase(str) {
-      return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
-    }
-    function formatAuthor(str) {
+
+ toTitleCase = (str) => {
+    return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+  }
+  formatAuthor = (str) => {
       var array = str.split(',')
-      return toTitleCase(array[1] + " " + array[0])
+      return this.toTitleCase(array[1] + " " + array[0])
     }
-    function formatBranch(branches) {
-      if (typeof branches[0] === 'undefined') {
-        return
-      }
-      else {
-        return branches[0].name + ': ' + branches[0].status
-        
-      }
+  formatBranch = (branches) => {
+    if (typeof branches[0] === 'undefined') {
+      return
     }
-    var title = toTitleCase(this.props.title)
-    var author = formatAuthor(this.props.author)
+    else {
+      return branches[0].name + ': ' + branches[0].status
+    }
+  }
+
+  render() {
+    var title = this.toTitleCase(this.props.title)
+    var author = this.formatAuthor(this.props.author)
     var pages = this.props.pages
     var copies = (this.props.copies > 1 ? this.props.copies + " copies" : "1 copy")
     var isbn = this.props.isbn
     var image = this.props.image
-    var branches = formatBranch(this.props.branches)
+    var branches = this.formatBranch(this.props.branches)
     var uri = this.props.uri
     return (
       <div className="col s4">
@@ -72,9 +71,7 @@ class BookList extends React.Component {
 
     }, this);
     return (
-      <ReactCSSTransitionGroup transitionName="example" transitionEnterTimeout={500} transitionLeaveTimeout={300}>
-        {items}
-      </ReactCSSTransitionGroup>
+      <div>{items}</div>
     );
   }
 }
@@ -126,7 +123,7 @@ class FilterableBookList extends React.Component {
     });
   }
 
-  componentDidMount () {
+  componentDidMount() {
     this.loadBooksFromServer()
   }
 

@@ -1,32 +1,33 @@
 'use strict';
 
-var ReactCSSTransitionGroup = React.addons.CSSTransitionGroup;
-
 class BookItem extends React.Component {
-  render() {
-    function toTitleCase(str) {
+  constructor(...args) {
+    var _temp;
+
+    return _temp = super(...args), this.toTitleCase = str => {
       return str.replace(/\w\S*/g, function (txt) {
         return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
       });
-    }
-    function formatAuthor(str) {
+    }, this.formatAuthor = str => {
       var array = str.split(',');
-      return toTitleCase(array[1] + " " + array[0]);
-    }
-    function formatBranch(branches) {
+      return this.toTitleCase(array[1] + " " + array[0]);
+    }, this.formatBranch = branches => {
       if (typeof branches[0] === 'undefined') {
         return;
       } else {
         return branches[0].name + ': ' + branches[0].status;
       }
-    }
-    var title = toTitleCase(this.props.title);
-    var author = formatAuthor(this.props.author);
+    }, _temp;
+  }
+
+  render() {
+    var title = this.toTitleCase(this.props.title);
+    var author = this.formatAuthor(this.props.author);
     var pages = this.props.pages;
     var copies = this.props.copies > 1 ? this.props.copies + " copies" : "1 copy";
     var isbn = this.props.isbn;
     var image = this.props.image;
-    var branches = formatBranch(this.props.branches);
+    var branches = this.formatBranch(this.props.branches);
     var uri = this.props.uri;
     return React.createElement(
       'div',
@@ -108,8 +109,8 @@ class BookList extends React.Component {
         uri: book.uri }));
     }, this);
     return React.createElement(
-      ReactCSSTransitionGroup,
-      { transitionName: 'example', transitionEnterTimeout: 500, transitionLeaveTimeout: 300 },
+      'div',
+      null,
       items
     );
   }
@@ -117,11 +118,11 @@ class BookList extends React.Component {
 
 class SearchBox extends React.Component {
   constructor(...args) {
-    var _temp;
+    var _temp2;
 
-    return _temp = super(...args), this.handleChange = () => {
+    return _temp2 = super(...args), this.handleChange = () => {
       this.props.onUserInput(this.refs.filterTextInput.value);
-    }, _temp;
+    }, _temp2;
   }
 
   render() {
@@ -156,9 +157,9 @@ class SearchBox extends React.Component {
 
 class FilterableBookList extends React.Component {
   constructor(...args) {
-    var _temp2;
+    var _temp3;
 
-    return _temp2 = super(...args), this.state = { filterText: '',
+    return _temp3 = super(...args), this.state = { filterText: '',
       data: [],
       query: '',
       url: this.props.url
@@ -169,7 +170,7 @@ class FilterableBookList extends React.Component {
         url: url
       });
       this.loadBooksFromServer();
-    }, _temp2;
+    }, _temp3;
   }
 
   loadBooksFromServer() {
